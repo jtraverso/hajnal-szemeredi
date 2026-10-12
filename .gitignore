@@ -1,0 +1,7 @@
+/.lake/
+*.olean
+*.ilean
+*.trace
+gate_*.lean
+apicheck*.lean
+tmp*.lean
