@@ -10,7 +10,9 @@ differ in size by at most one. If the number of vertices is `s (r + 1)`, every c
 The audited statements are in [`Challenge.lean`](Challenge.lean) (Mathlib imports only, Mathlib's
 `SimpleGraph.Coloring` and `SimpleGraph.degree`); the proofs are in [`Solution.lean`](Solution.lean)
 and the library [`HajnalSzemeredi/`](HajnalSzemeredi). [`comparator.json`](comparator.json) lists
-the compared theorems and [`formalization.yaml`](formalization.yaml) records provenance and process.
+the compared theorems and [`MATHLIB_DEFINITIONS.md`](MATHLIB_DEFINITIONS.md) reproduces verbatim the Mathlib definitions
+used by the statements (at the pinned Mathlib revision), and
+[`formalization.yaml`](formalization.yaml) records provenance and process.
 
 ## How the proof goes (Kierstead–Kostochka 2008)
 

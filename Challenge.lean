@@ -23,6 +23,9 @@ We use Mathlib's notions: `G.Coloring (Fin (r + 1))` is a proper colouring with 
 * `HajnalSzemeredi.hajnal_szemeredi`: the theorem.
 * `HajnalSzemeredi.hajnal_szemeredi_exact`: the exact form when `|V| = s (r + 1)`: every colour
   class has exactly `s` vertices (this is the colouring form of Erdős Problem #914).
+
+The Mathlib definitions used in these statements are reproduced verbatim, with file and line at
+the pinned Mathlib revision, in `MATHLIB_DEFINITIONS.md` at the root of this repository.
 -/
 
 public section
