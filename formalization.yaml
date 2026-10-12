@@ -1,0 +1,154 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "The Hajnal–Szemerédi theorem on equitable colourings"
+  description: >-
+    A Lean 4 / Mathlib formalization of the Hajnal–Szemerédi theorem (1970), conjectured by Erdős
+    in 1964: every finite graph with maximum degree at most r has an equitable proper colouring
+    with r + 1 colours, i.e. a proper colouring whose colour classes differ in size by at most
+    one. The exact form is also proved: if the number of vertices is s(r + 1), every colour class
+    has exactly s vertices (the colouring form of Erdős Problem #914). The proof follows the short
+    argument of Kierstead and Kostochka (2008): induction on the number of edges; after deleting
+    an edge, a nearly equitable colouring is repaired by moving vertices along paths of an
+    auxiliary digraph on the colour classes (Lemma 2.1); when the large class is inaccessible, a
+    family of terminal classes, solo edges and a discharging count with weights q/|S_z|
+    (Lemmas 2.2–2.3) produce a recolouring that either finishes the colouring or strictly
+    increases the number of accessible classes, using the induction hypothesis on the
+    inaccessible part. The general case is reduced to the divisible one by adding a disjoint
+    complete graph.
+  authors:
+    - "Juan Pablo Traverso Gianini"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - "Juan Pablo Traverso Gianini"
+
+classification:
+  arxiv: ["math.CO"]
+  msc2020: ["05C15", "05C35"]
+
+sources:
+  - title: "A short proof of the Hajnal–Szemerédi theorem on equitable colouring"
+    authors:
+      - "H. A. Kierstead"
+      - "A. V. Kostochka"
+    id: "doi:10.1017/S0963548307008619"
+    type: "paper"
+    location: "Combinatorics, Probability and Computing 17 (2008), 265–270"
+    relationship: "formalizes"
+    note: >-
+      Section 2 (Lemmas 2.1–2.3 and Theorem 2.4) is formalized closely. Lemma 2.1 avoids simple
+      paths by an induction on the set of allowed classes; the terminal family A' is obtained as
+      in the paper (a non-terminal class U minimising |T_U|); the reduction to |V| divisible by
+      r + 1 adds a disjoint complete graph as in the paper. Section 3 (algorithm) is not
+      formalized.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+  - title: "Proof of a conjecture of P. Erdős"
+    authors:
+      - "András Hajnal"
+      - "Endre Szemerédi"
+    type: "paper"
+    location: "Combinatorial Theory and its Applications II (P. Erdős, A. Rényi, V. T. Sós, eds.), North-Holland, 1970, 601–623"
+    relationship: "formalizes"
+    note: "Original statement and proof; the Lean proof follows Kierstead–Kostochka instead."
+    license: "unknown"
+    author_endorsement: "n/a"
+  - title: "Problem 9"
+    authors:
+      - "Paul Erdős"
+    type: "paper"
+    location: "Theory of Graphs and its Applications (M. Fiedler, ed.), Czech. Academy of Sciences, Prague, 1964, p. 159"
+    relationship: "background"
+    note: "Origin of the conjecture."
+    license: "unknown"
+    author_endorsement: "n/a"
+  - title: "Erdős Problem #914"
+    type: "web discussion"
+    location: "https://www.erdosproblems.com/914"
+    relationship: "background"
+    note: "The exact form hajnal_szemeredi_exact is the colouring formulation stated there."
+    license: "unknown"
+    author_endorsement: "n/a"
+
+related_formalizations:
+  - id: "https://github.com/google-deepmind/formal-conjectures/blob/main/FormalConjectures/ErdosProblems/914.lean"
+    relationship: "other"
+    note: "Lean statement of Erdős Problem #914 without proof; this project proves the colouring form."
+
+status:
+  scope: >-
+    Proved for finite simple graphs on vertex types in any universe: the Hajnal–Szemerédi theorem
+    and its exact form for |V| = s(r + 1). Not formalized: the polynomial-time algorithm of
+    Kierstead–Kostochka, and the complementary statement about vertex-disjoint copies of K_r in
+    graphs of large minimum degree.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude Opus 5.5"]
+      framework: "Claude Code (Anthropic)"
+      tool_setup: >-
+        AI-assisted. The human author chose the theorem and the Kierstead–Kostochka route and
+        directed the work. The agent designed the formal architecture (colourings of finite
+        vertex sets with arbitrary palettes, accessible classes via reflexive-transitive
+        closures, the minimal-counterexample structure), wrote Lemma 2.1, the structural lemmas,
+        the double induction, the reduction to the divisible case and the packaging, and checked
+        everything with `lake build` and `#print axioms` (Lean v4.35.0-rc3, Mathlib
+        c55e6e786f49471c72fbddbec5415808896aec1e).
+      cost:
+        wall_time: "a few hours"
+        spend_usd: "subscription-based"
+        hardware: "local machine"
+      prompting_notes: "Natural-language instructions in Spanish; proof plans proposed by the agent and approved by the author."
+    - method: "autonomous"
+      models: ["Aristotle (Harmonic)"]
+      framework: "Aristotle CLI"
+      tool_setup: >-
+        Used for the counting lemmas 2.2–2.3 (HajnalSzemeredi/Count.lean) and the two
+        recolouring cases of Theorem 2.4 (HajnalSzemeredi/Cases.lean), given formal statements
+        and the paper's arguments. Returned files were audited: only the assigned `sorry`s were
+        filled, no statement changed, and the results were rebuilt and axiom-checked locally.
+      cost:
+        wall_time: "about one hour (two runs)"
+        spend_usd: "not tracked"
+        hardware: "API-only"
+      prompting_notes: "Each run received the project sources and a paraphrase of the relevant part of the paper."
+  spend_usd: "subscription-based"
+  notes: >-
+    Statements were fixed first and filled afterwards; every step was verified mechanically (no
+    `sorry`, axioms limited to propext, Classical.choice and Quot.sound, identical elaborated
+    types for each Challenge/Solution pair).
+
+fidelity:
+  divergences: >-
+    None in the statement. Colour classes are counted with `Finset.univ.filter`; colourings are
+    Mathlib's `SimpleGraph.Coloring` with colours `Fin (r + 1)`.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "none"
+  notes: >-
+    Statements were audited by the agent against the sources; Aristotle-generated proofs were
+    audited by diff and rebuilt. No independent human mathematical review has been performed yet.
+
+alignment:
+  namespace: "HajnalSzemeredi"
+  statements:
+    - source: "Hajnal–Szemerédi (1970); Kierstead–Kostochka (2008), Theorem 2.4"
+      lean: "HajnalSzemeredi.hajnal_szemeredi"
+      module: "Challenge"
+      status: "proved"
+      note: "Equitable (r+1)-colouring of every finite graph with maximum degree ≤ r."
+    - source: "Exact form / Erdős Problem #914 (colouring form)"
+      lean: "HajnalSzemeredi.hajnal_szemeredi_exact"
+      module: "Challenge"
+      status: "proved"
+      note: "If |V| = s(r + 1), all colour classes have exactly s vertices."
+
+acknowledgements: >-
+  Mathlib and the Lean community; Harmonic's Aristotle for two groups of lemmas.
